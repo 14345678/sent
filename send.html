@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フォーム送信例</title>
+</head>
+<body>
+    <h1>情報送信フォーム</h1>
+    <form id="myForm">
+        <label for="name">名前:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <input type="submit" value="送信">
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // フォームのデフォルトの送信を防止
+
+            const formData = new FormData(this); // フォームデータを取得
+
+            fetch('http://14345678.github.io/submit.php', {
+                // データを送信するURL
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('ネットワークエラー');
+            })
+            .then(data => {
+                console.log('成功:', data);
+            })
+            .catch(error => {
+                console.error('エラー:', error);
+            });
+        });
+    </script>
+</body>
+</html>
